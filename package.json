@@ -1,0 +1,19 @@
+{
+  "name": "movie-proyect",
+  "version": "1.0.0",
+  "description": "Proyecto con la API DE MOVIE DB",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lauti2804/Movie-Proyect.git"
+  },
+  "author": "@Lauti2804",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lauti2804/Movie-Proyect/issues"
+  },
+  "homepage": "https://github.com/Lauti2804/Movie-Proyect#readme"
+}

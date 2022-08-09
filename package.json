@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Lauti2804/Movie-Proyect/issues"
   },
-  "homepage": "https://github.com/Lauti2804/Movie-Proyect#readme"
+  "homepage": "https://github.com/Lauti2804/Movie-Proyect#readme",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
 }

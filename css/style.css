@@ -348,14 +348,83 @@ footer {
   background-color: var(--purple-medium-3);
   color: var(--purple-light-2);
   text-align: center;
-  height: 48px;
-  display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 0.05rem;
 }
 
 
 /* Navigation */
 .inactive {
   display: none;
+}
+
+
+.background {
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: preloadAnimation;
+  animation-timing-function: linear;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+}
+
+
+
+.movie-container--loading{
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation: preloadAnimation;
+  animation-timing-function: linear;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+ 
+  height: 225px;
+  min-height: 225px;
+  max-height: 225px;
+  width: 150px;
+  min-width: 150px;
+  max-width: 150px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  margin-right: 5px;
+}
+  @keyframes preloadAnimation{
+    0%{
+        background-position: -769px0
+    }
+    100%{
+        background-position: 769px0
+    }
+    
+  }
+
+
+  .category-container--loading{
+    height: 25px;
+    min-height: 25px;
+    max-height: 25px;
+    width: 150px;
+    min-width: 150px;
+    max-width: 300px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    margin-right: 5px;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: preloadAnimation;
+    animation-timing-function: linear;
+    background: #f6f7f8;
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+  }
+
+
+
+.footer div svg{
+  background: white;
+  border-radius: 2rem;
+  padding: 0.3rem;
 }

@@ -8,10 +8,33 @@ const api = axios.create({
     },
 });
 
+//Utils
+const lazyLoaded = new IntersectionObserver((entries)=>{
+    entries.map(entry=>{
+      
+       const URL =  entry.target.getAttribute("data-img");
+        if(entry.isIntersecting){
+
+            entry.target.setAttribute("src", URL);
+        }else{
+            entry.target.setAttribute("src", "")
+        }
+    //    console.log(entry)
+    })
+})
 
 
-function createMovies(movies,container){
-    container.innerHTML = "";
+
+function createMovies(movies
+    ,
+    container,
+    {
+    lazyLoad = false,
+    clean = true
+    }={}){
+    if(clean){
+        container.innerHTML = "";
+    }
     movies.map(movie=>{ 
        
         const divContainer = document.createElement("div");
@@ -23,9 +46,15 @@ function createMovies(movies,container){
         img.classList.add("movie-img");
         img.setAttribute("alt", movie.title);
         img.setAttribute(
-            "src", 
-            `https://image.tmdb.org/t/p/w300${movie.poster_path}`)
-     
+         lazyLoad ?   "data-img" : "src", 
+         movie.poster_path !== null ?
+            `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+            : `https://as01.epimg.net/meristation/imagenes/2021/04/26/reportajes/1619438192_264857_1619438392_sumario_normal.jpg`
+        )
+            
+            if(lazyLoad){
+                lazyLoaded.observe(img)    
+            }
         divContainer.appendChild(img);
         container.appendChild(divContainer)
 
@@ -56,15 +85,18 @@ async function getCategoriesMoviesPreview(){
     const {data} = await api(`/genre/movie/list`)
     const categories  = data.genres;
  
-    createCategories(categories,categoriesPreviewList);
+    createCategories(categories,categoriesPreviewList, {lazyLoad:true, clean:true});
 }
-
-
-
+async function getPageCategoriesMoviesPreview(){
+    const {data} = await api(`/genre/movie/list`)
+    const categories  = data.genres;
+ 
+    createCategories(categories,categoriesPreviewList, {lazyLoad:true, clean:true});
+}
 async function getTrendingMoviesPreview(){
     const {data} = await api(`/trending/movie/day`)
     const movies  = data.results; 
-    createMovies(movies,trendingMoviesPreviewList)
+    createMovies(movies,trendingMoviesPreviewList, {lazyLoad:true, clean:true})
 }
 
 async function getMoviesByCategories(id){
@@ -85,21 +117,14 @@ async function getMoviesBySearch(query){
     })
     const movies  = data.results; 
     
-    createMovies(movies,genericSection)
-}
-
-async function getTrendingMovies(){
-    const {data} = await api(`/trending/movie/day`)
-    const movies  = data.results; 
-
-    createMovies(movies,genericSection)
+    createMovies(movies,genericSection, {lazyLoad:true})
 }
 
 async function getMovieById(id){
     const {data: movie} = await api(`/movie/${id}`)
-
+    
     const movieImg =  `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-
+    
     headerSection.style.background = ` linear-gradient(180deg, rgba(0, 0, 0, 0.35) 19.27%, rgba(0, 0, 0, 0) 29.17%), url(${movieImg})`;
     headerSection.style.backgroundPosition = 'center';
     headerSection.style.backgroundSize= "cover";
@@ -110,7 +135,6 @@ async function getMovieById(id){
     
 }
 
-
 async function getMoviesRecomends(id){
     const {data} = await api(`/movie/${id}/recommendations`)
     const reloadMovies  = data.results; 
@@ -118,3 +142,38 @@ async function getMoviesRecomends(id){
     movieDetails.innerHTML = "";
     createMovies(reloadMovies, movieDetails);
 }
+
+
+async function getTrendingMovies(){
+    const {data} = await api(`/trending/movie/day`)
+    const movies  = data.results; 
+
+    createMovies(movies,genericSection)
+
+    
+}
+
+async function getPageTrendingMovies(){
+    const {scrollTop, scrollHeight, clientHeight} = document.documentElement;
+    const scrollIsBottom = (scrollTop + clientHeight) >= (scrollHeight - 15);
+    if(scrollIsBottom){
+        page++
+        const {data} = await api(`/trending/movie/day`,{
+            params:{
+                page,
+            }
+        })
+        const movies  = data.results; 
+    
+        createMovies(movies,genericSection, {lazyLoad: true, clean:false })
+        
+    }
+
+    // window.scrollTo(0,0)
+    // const btnLoadMore = document.createElement("button");
+    // btnLoadMore.textContent = "Add more";
+    // genericSection.appendChild(btnLoadMore);
+    // btnLoadMore.addEventListener("click", () =>  getPageTrendingMovies() && btnLoadMore.remove())
+}
+
+

@@ -103,6 +103,7 @@ button {
 
 .movie-container {
   cursor: pointer;
+  position:relative;
 }
 
 .movie-img {
@@ -110,14 +111,14 @@ button {
   min-height: 230px;
 }
 .movie-btn{
-  position: relative;
+  position: absolute;
   bottom: 185px;
-  right: 45px;
+  right: 10px;
   height: 30px;
   width: 30px;
   border-radius: 30px;
-  margin:0;
-  padding:0; 
+  margin: 0;
+  padding: 0;
   
 }
 .movie-btn::before{
